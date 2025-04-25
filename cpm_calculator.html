@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CPM Budget Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 400px;
+      margin: auto;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>CPM Budget Calculator</h2>
+  <label for="imps">Impressions</label>
+  <input type="number" id="imps" placeholder="Enter number of impressions">
+
+  <label for="cpm">CPM (€)</label>
+  <input type="number" id="cpm" step="0.01" placeholder="Enter CPM rate">
+
+  <button onclick="calculate()">Calculate Budget</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculate() {
+      const imps = parseFloat(document.getElementById("imps").value);
+      const cpm = parseFloat(document.getElementById("cpm").value);
+      if (isNaN(imps) || isNaN(cpm)) {
+        document.getElementById("result").innerText = "Please enter valid numbers.";
+        return;
+      }
+      const budget = (imps / 1000) * cpm;
+      document.getElementById("result").innerText = `Estimated Budget: €${budget.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>

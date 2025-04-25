@@ -1,50 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>CPM Budget Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPM Budget Calculator | Refinery89</title>
   <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --card: #f9f9f9;
+      --accent: #0072ce;
+    }
+
+    [data-theme='dark'] {
+      --bg: #121212;
+      --text: #f5f5f5;
+      --card: #1e1e1e;
+      --accent: #4fa3f7;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
       max-width: 400px;
-      margin: auto;
-    }
-    input, button {
-      padding: 10px;
-      margin-top: 10px;
       width: 100%;
-      font-size: 16px;
+      background-color: var(--card);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     }
+
+    img.logo {
+      width: 160px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: darken(var(--accent), 10%);
+    }
+
     .result {
       margin-top: 20px;
       font-size: 18px;
       font-weight: bold;
+      text-align: center;
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 1px solid var(--text);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text);
     }
   </style>
 </head>
 <body>
-  <h2>CPM Budget Calculator</h2>
-  <label for="imps">Impressions</label>
-  <input type="number" id="imps" placeholder="Enter number of impressions">
+  <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
 
-  <label for="cpm">CPM (€)</label>
-  <input type="number" id="cpm" step="0.01" placeholder="Enter CPM rate">
+  <div class="container">
+    <img src="https://refinery89.com/wp-content/uploads/2023/05/cropped-logo-dark.png" alt="Refinery89 Logo" class="logo" />
+    <h2>CPM Budget Calculator</h2>
 
-  <button onclick="calculate()">Calculate Budget</button>
+    <label for="imps">Impressions</label>
+    <input type="number" id="imps" placeholder="Enter number of impressions" />
 
-  <div class="result" id="result"></div>
+    <label for="cpm">CPM (€)</label>
+    <input type="number" id="cpm" step="0.01" placeholder="Enter CPM rate" />
+
+    <button onclick="calculate()">Calculate Budget</button>
+
+    <div class="result" id="result"></div>
+  </div>
 
   <script>
     function calculate() {
       const imps = parseFloat(document.getElementById("imps").value);
       const cpm = parseFloat(document.getElementById("cpm").value);
+      const resultBox = document.getElementById("result");
+
       if (isNaN(imps) || isNaN(cpm)) {
-        document.getElementById("result").innerText = "Please enter valid numbers.";
+        resultBox.innerText = "Please enter valid numbers.";
         return;
       }
+
       const budget = (imps / 1000) * cpm;
-      document.getElementById("result").innerText = `Estimated Budget: €${budget.toFixed(2)}`;
+      resultBox.innerText = `Estimated Budget: €${budget.toFixed(2)}`;
     }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Auto load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   </script>
 </body>
 </html>
